@@ -21,24 +21,38 @@ beegoHelper
 Parse 系列:
 
 > `this.GetInts` 函数, 返回一个[]int
+
 > `this.ParseJson` 直接将body当成一个json，parse到对象中。方便api交互（尤其是angular）
+
 > `this.GetParamString`, `this.GetParamInt` 是 `this.Ctx.Input.Param()` 的缩短版
+
 > `this.ParseFormAndValid`, 直接解析内容到结构体,并且按照valid的tag来验证struct,详细请查看beego文档`form验证`一节
+
 > `this.ParseQuery`, 实验函数,解析query直接返回一个orm的Cond
 
 Paginator系列:分页器
 使用以后会在url最后加一个?p=xxx表示页码
 
 > `this.Paginator(每页几个元素,一共有几个元素)` 生成一个分页器,方便数据库查询以及分页,有以下方法:
+
 >> `Pages() []int` 返回页码数组
+
 >> `PageLink(page int) string` 根据页码生成某一页的链接
+
 >> `PageLinkPrev() (link string)`
+
 >> `PageLinkLast() (link string)`
+
 >> `HasPrev() bool`
+
 >> `HasNext() bool`
+
 >> `IsActive(page int) bool`
+
 >> `Offset() int`
+
 >> `HasPages() bool`
+
 >> `End() int`
 
 Auth系列:HTTPBaseAuth
