@@ -1,4 +1,4 @@
-package beegoBaseController
+package beegoHelper
 
 import (
 	"fmt"
