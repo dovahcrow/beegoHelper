@@ -4,18 +4,18 @@ beegoHelper
 创建beego控制器时候的一个辅助控制器，方便开发.
 
 使用方法： 直接嵌入即可，即
-  
-  import (
-	  "github.com/doomsplayer/beegoHelper"
-  )
-  
-  type MainController struct {
-  	beegoHelper.Base
-  }
-  
-  func (this *MainController) Get() {
-    .........
-  }
+
+	import (
+		"github.com/doomsplayer/beegoHelper"
+	)
+	
+	type MainController struct {
+		beegoHelper.Base
+	}
+	
+	func (this *MainController) Get() {
+		.........
+	}
 
 内容包括：
 Parse 系列:
