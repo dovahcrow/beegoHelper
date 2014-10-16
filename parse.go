@@ -38,10 +38,18 @@ func (this *Base) ParseJson(obj interface{}) (err error) {
 	err = dec.Decode(obj)
 	return
 }
-func (this *Base) GetParamInt(field string) int {
+func (this *Base) GetParamInt(field string) (int, error) {
 	param := this.Ctx.Input.Param(field)
-	ret, _ := strconv.Atoi(param)
-	return ret
+	ret, err := strconv.Atoi(param)
+	return ret, err
+}
+func (this *Base) GetParamString(field string) string {
+	return this.Ctx.Input.Param(field)
+}
+func (this *Base) GetParamBool(field string) (bool, error) {
+	param := this.Ctx.Input.Param(field)
+	ret, err := strconv.ParseBool(param)
+	return ret, err
 }
 func (this *Base) GetInts(field string) []int {
 	ss := this.GetStrings(field)
