@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/astaxie/beego/orm"
 	"github.com/astaxie/beego/validation"
+	"regexp"
 	"strconv"
 )
 
@@ -62,29 +63,46 @@ func (this *Base) GetInts(field string) []int {
 }
 func (this *Base) ParseQuery(fields ...string) *orm.Condition {
 	cond := orm.NewCondition()
+	extractor := regexp.MustCompile(`^(.+?)\.(.+?)\.(.+?)$`)
 	for _, v := range fields {
-		entity := this.GetString("q" + v)
-
-		if len(entity) != 0 {
-			switch entity[0] {
-			case '*':
-				{
-					cond = cond.And(v+"__icontains", entity[1:])
-				}
-			case '?':
-				{
-					cond = cond.Or(v+"__icontains", entity[1:])
-				}
-			case '!':
-				{
-					cond = cond.AndNot(v+"__icontains", entity[1:])
-				}
-			case '~':
-				{
-					cond = cond.OrNot(v+"__icontains", entity[1:])
-				}
+		entity := this.GetString("q." + v)
+		qs := extractor.FindStringSubmatch(entity)
+		if len(qs) != 4 {
+			continue
+		}
+		switch qs[2] {
+		case "contains", "icontains", "exact", "iexact":
+			{
+				v += qs[2]
+			}
+		default:
+			{
+				continue
 			}
 		}
+		switch qs[1] {
+		case "and":
+			{
+				cond = cond.And(v, qs[3])
+			}
+		case "or":
+			{
+				cond = cond.Or(v, qs[3])
+			}
+		case "andnot":
+			{
+				cond = cond.AndNot(v, qs[3])
+			}
+		case "ornot":
+			{
+				cond = cond.OrNot(v, qs[3])
+			}
+		default:
+			{
+				continue
+			}
+		}
+
 	}
 
 	return cond
