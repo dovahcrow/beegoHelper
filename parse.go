@@ -73,7 +73,7 @@ func (this *Base) ParseQuery(fields ...string) *orm.Condition {
 		switch qs[2] {
 		case "contains", "icontains", "exact", "iexact":
 			{
-				v += qs[2]
+				v += "__" + qs[2]
 			}
 		default:
 			{
